@@ -18,4 +18,10 @@ class SessionsController < ApplicationController
     terminate_session
     redirect_to new_session_path, status: :see_other
   end
+
+  private
+
+  def after_authentication_url
+    user_path(Current.user)    
+  end
 end

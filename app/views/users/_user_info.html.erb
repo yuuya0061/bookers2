@@ -1,0 +1,18 @@
+<h2>User info</h2>
+
+<img style="width:100px;height:100px;">
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th>name</th>
+      <td><%= user.name %></td>
+    </tr>
+    <tr>
+      <th>introduction</th>
+      <td><%= simple_format(user.introduction) %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to "edit", "#", class: "btn btn-outline-secondary w-100" %>

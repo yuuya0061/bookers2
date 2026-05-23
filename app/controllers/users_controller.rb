@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
- allow_unauthenticated_access only: [:new, :create] 
+  allow_unauthenticated_access only: [:new, :create] 
  
+  def show
+    @user = User.find(params[:id])
+    @book = Book.new
+  end
+
   def new
     @user = User.new
   end
