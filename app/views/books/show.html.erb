@@ -1,4 +1,8 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
-
-<%= @book.inspect %>
+<div class="row">
+  <div class="col-md-3">
+    <%= render "layouts/aside", user: @user, book: @new_book %>
+  </div>
+  <div class="col-md-8 offset-md-1">
+    <%= render "books/book", book: @book %>
+  </div>
+</div>

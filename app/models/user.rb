@@ -5,5 +5,11 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
   
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-  validates :email_address, presence: true, uniqueness: true 
+  validates :email_address, presence: true, uniqueness: true
+
+  validates :name, presence: true,
+                   length: { minimum: 2, maximum: 20 },
+                   uniqueness: true
+  validates :introduction, length: { maximum: 50 }                 
+
 end

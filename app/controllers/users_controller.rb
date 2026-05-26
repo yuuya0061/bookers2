@@ -1,9 +1,17 @@
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: [:new, :create] 
+  allow_unauthenticated_access only: [ :new, :create ] 
+  before_action :correct_user, only: [ :edit, :update ]
  
+  def index
+    @users = User.all
+    @user = Current.user
+    @new_book = Book.new
+  end
+
   def show
     @user = User.find(params[:id])
-    @book = Book.new
+    @new_book = Book.new
+    @books = @user.books
   end
 
   def new
@@ -15,9 +23,22 @@ class UsersController < ApplicationController
     if @user.save
       # ユーザー登録成功後、ログイン画面へリダイレクト
       start_new_session_for @user
-      redirect_to after_authentication_url, notice: "ようこそ！登録が完了しました。"
+      redirect_to @user, notice: "Welcome! You have signed up successfully."
     else
       # エラー時はフォームを再表示
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+     @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to @user, notice: "You have updated user successfully."
+    else
       render :new, status: :unprocessable_entity
     end
   end
@@ -26,7 +47,11 @@ class UsersController < ApplicationController
  
   def user_params
     # name, email_address, password, password_confirmation を許可
-    params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email_address, :password, :password_confirmation, :profile_image, :introduction)
   end
 
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to Current.user if @user != Current.user
+  end
 end

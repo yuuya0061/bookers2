@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     if (user = User.find_by(name: params[:name]))&.authenticate(params[:password]) # この行を変更
       start_new_session_for user
-      redirect_to after_authentication_url
+      redirect_to after_authentication_url, notice: "Signed in successfully."
     else
       redirect_to new_session_path, alert: "Try another name or password."
     end
@@ -16,12 +16,12 @@ class SessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to new_session_path, status: :see_other
+    redirect_to root_path, status: :see_other, notice: "Signed out successfully."
   end
 
   private
 
   def after_authentication_url
-    user_path(Current.user)    
+    user_path(Current.user) 
   end
 end
